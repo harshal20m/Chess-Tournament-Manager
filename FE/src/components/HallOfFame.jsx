@@ -13,7 +13,7 @@ const HallOfFame = () => {
 
 	const fetchPlayers = async () => {
 		try {
-			const response = await fetch("http://localhost:3000/api/players");
+			const response = await fetch("https://chess-tournament-manager-na4u.onrender.com/api/players");
 			const data = await response.json();
 			setPlayers(data);
 			fetchPlayersData(data);

@@ -17,7 +17,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
 		const endpoint = isLoginMode ? "login" : "register";
 
 		try {
-			const response = await fetch(`http://localhost:3000/api/auth/${endpoint}`, {
+			const response = await fetch(`https://chess-tournament-manager-na4u.onrender.com/api/auth/${endpoint}`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
