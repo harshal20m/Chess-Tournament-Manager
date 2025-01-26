@@ -1,0 +1,19 @@
+{
+	"name": "chess-tournament-backend",
+	"version": "1.0.0",
+	"description": "Chess Tournament Registration API",
+	"main": "src/index.js",
+	"scripts": {
+		"start": "node index.js",
+		"dev": "nodemon index.js"
+	},
+	"dependencies": {
+		"cors": "^2.8.5",
+		"dotenv": "^16.3.1",
+		"express": "^4.18.2",
+		"mongoose": "^8.9.5"
+	},
+	"devDependencies": {
+		"nodemon": "^3.0.1"
+	}
+}
