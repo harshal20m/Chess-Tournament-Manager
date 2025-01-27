@@ -141,12 +141,12 @@ const Home = () => {
 					<Link
 						to="/registration"
 						className="group h-16 sm:h-20 w-full sm:w-44 text-base sm:text-xl text-center flex flex-col justify-center items-center rounded-xl sm:rounded-2xl 
-                    bg-gradient-to-br from-orange-500 via-orange-600 to-pink-600 text-white 
-                    shadow-[0_0_10px_rgba(237,137,54,0.3)] sm:shadow-[0_0_20px_rgba(237,137,54,0.5)]
-                    hover:shadow-[0_0_15px_rgba(236,72,153,0.4)] sm:hover:shadow-[0_0_25px_rgba(236,72,153,0.6)]
-                    transition-all duration-300 hover:scale-[1.02] sm:hover:scale-105 
-                    hover:from-orange-600 hover:via-orange-700 hover:to-pink-700
-                    relative overflow-hidden"
+             bg-gradient-to-br from-blue-500 via-purple-600 to-green-600 text-white 
+             shadow-[0_0_10px_rgba(59,130,246,0.3)] sm:shadow-[0_0_20px_rgba(59,130,246,0.5)]
+             hover:shadow-[0_0_15px_rgba(34,197,94,0.4)] sm:hover:shadow-[0_0_25px_rgba(34,197,94,0.6)]
+             transition-all duration-300 hover:scale-[1.02] sm:hover:scale-105 
+             hover:from-blue-600 hover:via-purple-700 hover:to-green-700
+             relative overflow-hidden"
 					>
 						<span className="relative z-10">Registration</span>
 						<div
@@ -174,17 +174,21 @@ const Home = () => {
 					<Link
 						to="/hall-of-fame"
 						className="group h-16 sm:h-20 w-full sm:w-44 text-base sm:text-xl text-center flex flex-col justify-center items-center rounded-xl sm:rounded-2xl 
-                    bg-gradient-to-br from-red-500 via-red-600 to-yellow-600 text-white 
-                    shadow-[0_0_10px_rgba(245,101,101,0.3)] sm:shadow-[0_0_20px_rgba(245,101,101,0.5)]
-                    hover:shadow-[0_0_15px_rgba(234,179,8,0.4)] sm:hover:shadow-[0_0_25px_rgba(234,179,8,0.6)]
-                    transition-all duration-300 hover:scale-[1.02] sm:hover:scale-105 
-                    hover:from-red-600 hover:via-red-700 hover:to-yellow-700
-                    relative overflow-hidden"
+             bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600 text-white 
+             shadow-[0_0_10px_rgba(252,211,77,0.3)] sm:shadow-[0_0_20px_rgba(252,211,77,0.5)]
+             hover:shadow-[0_0_15px_rgba(252,211,77,0.4)] sm:hover:shadow-[0_0_25px_rgba(252,211,77,0.6)]
+             transition-all duration-300 hover:scale-[1.02] sm:hover:scale-105 
+             hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700
+             relative overflow-hidden"
 					>
 						<span className="relative z-10">Hall Of Fame</span>
 						<div
 							className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent 
-                        translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"
+               translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"
+						></div>
+						<div
+							className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 
+               animate-fire"
 						></div>
 					</Link>
 				</div>

@@ -165,9 +165,9 @@ const Chat = ({ isOpen, onClose, currentUser }) => {
 						<button
 							type="submit"
 							disabled={isLoading || !newMessage.trim()}
-							className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-800 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-colors text-sm"
+							className="   rounded-lg transition-colors text-3xl"
 						>
-							Send
+							➡️
 						</button>
 					</div>
 				</form>
