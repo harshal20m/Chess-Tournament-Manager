@@ -11,7 +11,7 @@ const Tournaments = () => {
 			id: "sunday-tournament",
 			name: "Sunday Tournament",
 			status: "open", // 'open', 'closed', 'ongoing'
-			date: new Date().toLocaleDateString(),
+			date: "02/feb/2025",
 			time: "2:00 PM IST",
 			format: "Open",
 			timeControl: "10+0 Blitz",
@@ -19,7 +19,7 @@ const Tournaments = () => {
 			prizePool: "Depends on registrations",
 			maxParticipants: 32,
 			details: [
-				{ label: "Date", value: new Date().toLocaleDateString() },
+				{ label: "Date", value: "02/feb/2025" },
 				{ label: "Time", value: "2:00 PM IST" },
 				{ label: "Format", value: "Open" },
 				{ label: "Time Control", value: "10+0 Blitz" },
