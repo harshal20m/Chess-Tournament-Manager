@@ -153,19 +153,19 @@ const Chat = ({ isOpen, onClose, currentUser }) => {
 
 				{/* Input Area */}
 				<form onSubmit={handleSend} className="p-3 sm:p-4 border-t border-gray-700">
-					<div className="flex gap-2">
+					<div className="flex gap-2 w-full">
 						<input
 							type="text"
 							value={newMessage}
 							onChange={(e) => setNewMessage(e.target.value)}
 							placeholder={currentUser ? "Type a message..." : "Please log in to send a message"}
-							className="flex-1 bg-gray-800 text-white text-sm rounded-lg px-3 py-1.5 sm:px-4 sm:py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+							className="w-[85%] bg-gray-800 text-white text-sm rounded-lg px-3 py-1.5 sm:px-4 sm:py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 							disabled={isLoading}
 						/>
 						<button
 							type="submit"
 							disabled={isLoading || !newMessage.trim()}
-							className="   rounded-lg transition-colors text-3xl"
+							className="w-[15%] rounded-lg transition-colors text-3xl"
 						>
 							➡️
 						</button>
