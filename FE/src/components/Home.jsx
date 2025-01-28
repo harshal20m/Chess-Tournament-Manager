@@ -216,6 +216,9 @@ const Home = () => {
 					className="fixed bottom-4 sm:bottom-8 right-4 sm:right-6 bg-white/20 backdrop-blur-md text-white p-4 sm:p-3 rounded-full hover:bg-white/30 transition-all duration-300 shadow-lg z-40"
 					aria-label="Open chat"
 				>
+					<span className="absolute -top-2 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[20px] h-5 flex items-center justify-center">
+						5+
+					</span>
 					<IoChatboxEllipses size={20} className="sm:w-6 sm:h-6" />
 				</button>
 

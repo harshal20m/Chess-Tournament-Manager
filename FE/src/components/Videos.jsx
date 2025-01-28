@@ -41,8 +41,15 @@ function Videos() {
 						rel="noopener noreferrer"
 						className="block hover:transform hover:scale-105 transition-transform duration-300"
 					>
-						<div className="bg-white rounded-lg shadow-lg overflow-hidden">
+						<div className="bg-white rounded-lg shadow-lg overflow-hidden relative">
 							<img src={video.thumbnail} alt={video.title} className="w-full h-auto object-contain" />
+							<div className="absolute inset-0 flex items-center justify-center">
+								<div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors duration-300">
+									<svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+										<path d="M8 5.14v14l11-7-11-7z" />
+									</svg>
+								</div>
+							</div>
 							<div className="p-4">
 								<h3 className="text-sm font-semibold text-gray-800">{video.title}</h3>
 							</div>
