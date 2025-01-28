@@ -45,8 +45,16 @@ const Header = () => {
 						>
 							×
 						</button>
-						<h2 className="text-xl font-bold mb-4">About</h2>
+						<h2 className="text-xl font-bold mb-4 text-center">About</h2>
 						<p className="mb-4">Created by Harshal Mali</p>
+						<p className="mb-4 text-center">
+							<a
+								href="https://harshalmali.online"
+								className="font-bold text-xl text-blue-500 hover:text-blue-700 hover:underline transform hover:scale-105 transition-all duration-200 inline-block cursor-pointer"
+							>
+								&lt; HM &gt;
+							</a>
+						</p>
 					</div>
 				</div>
 			)}

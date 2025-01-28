@@ -42,7 +42,7 @@ function Videos() {
 						className="block hover:transform hover:scale-105 transition-transform duration-300"
 					>
 						<div className="bg-white rounded-lg shadow-lg overflow-hidden">
-							<img src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover" />
+							<img src={video.thumbnail} alt={video.title} className="w-full h-auto object-contain" />
 							<div className="p-4">
 								<h3 className="text-sm font-semibold text-gray-800">{video.title}</h3>
 							</div>
