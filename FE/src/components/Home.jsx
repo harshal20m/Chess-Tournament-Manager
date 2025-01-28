@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import Chat from "./Chat";
 import LoginModal from "./LoginModal";
 import { IoChatboxEllipses } from "react-icons/io5";
+import { GiChessKnight } from "react-icons/gi";
+
 import Thoughts from "./Thoughts";
 import Videos from "./Videos";
 
@@ -100,8 +102,9 @@ const Home = () => {
 
 			{/* Content */}
 			<div className="relative z-10 p-4">
-				<div className="text-3xl sm:text-4xl md:text-6xl font-bold text-center text-white mb-4 sm:mb-8 mt-2 sm:mt-4">
-					♟️ Chess MBH ♟️
+				<div className="text-3xl sm:text-4xl md:text-6xl font-bold text-center text-white mb-4 sm:mb-8 mt-2 sm:mt-4 flex align-center justify-center">
+					<GiChessKnight size={40} color="white" /> &nbsp; Chess MBH &nbsp;
+					<GiChessKnight size={40} color="white" />
 				</div>
 
 				{/* Navigation Cards */}
@@ -193,6 +196,26 @@ const Home = () => {
                animate-fire"
 						></div>
 					</Link>
+
+					{/* New Analysis Button */}
+					<a
+						href="https://chess.wintrcat.uk/"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="group h-16 sm:h-20 w-full sm:w-44 text-base sm:text-xl text-center flex flex-col justify-center items-center rounded-xl sm:rounded-2xl 
+						bg-gradient-to-br from-cyan-500 via-cyan-600 to-blue-600 text-white 
+						shadow-[0_0_10px_rgba(6,182,212,0.3)] sm:shadow-[0_0_20px_rgba(6,182,212,0.5)]
+						hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] sm:hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]
+						transition-all duration-300 hover:scale-[1.02] sm:hover:scale-105 
+						hover:from-cyan-600 hover:via-cyan-700 hover:to-blue-700
+						relative overflow-hidden"
+					>
+						<span className="relative z-10">Analysis</span>
+						<div
+							className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent 
+							translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"
+						></div>
+					</a>
 				</div>
 
 				{/* Welcome Messages */}
