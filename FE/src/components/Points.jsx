@@ -12,7 +12,6 @@ const Points = () => {
 				if (!response.ok) throw new Error("Failed to fetch players");
 				const data = await response.json();
 				setPlayers(data);
-				console.log(data);
 			} catch (err) {
 				setError(err.message);
 			} finally {
