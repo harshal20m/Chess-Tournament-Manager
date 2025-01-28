@@ -29,7 +29,7 @@ const Chat = ({ isOpen, onClose, currentUser }) => {
 
 	const fetchMessages = async () => {
 		try {
-			const response = await fetch("https://l7jkcepdx1.execute-api.us-east-1.amazonaws.com/dev/api/messages");
+			const response = await fetch("https://kuf4krkrb7.execute-api.ap-south-1.amazonaws.com/dev/api/messages");
 			const data = await response.json();
 			setMessages(data);
 			scrollToBottom();
@@ -53,7 +53,7 @@ const Chat = ({ isOpen, onClose, currentUser }) => {
 
 		setIsLoading(true);
 		try {
-			const response = await fetch("https://l7jkcepdx1.execute-api.us-east-1.amazonaws.com/dev/api/messages", {
+			const response = await fetch("https://kuf4krkrb7.execute-api.ap-south-1.amazonaws.com/dev/api/messages", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
