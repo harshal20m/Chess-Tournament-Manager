@@ -46,7 +46,7 @@ const Tournaments = () => {
 	useEffect(() => {
 		const fetchRegistrationCount = async () => {
 			try {
-				const response = await fetch("https://chess-tournament-manager-na4u.onrender.com/api/register");
+				const response = await fetch("https://l7jkcepdx1.execute-api.us-east-1.amazonaws.com/dev/api/register");
 				const data = await response.json();
 				setRegistrationCount(data.length);
 			} catch (err) {

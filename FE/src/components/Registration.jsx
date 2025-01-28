@@ -46,7 +46,7 @@ const Registration = () => {
 
 	const fetchRegistrations = async () => {
 		try {
-			const response = await fetch("https://chess-tournament-manager-na4u.onrender.com/api/register");
+			const response = await fetch("https://l7jkcepdx1.execute-api.us-east-1.amazonaws.com/dev/api/register");
 			const data = await response.json();
 			setRegistrations(data);
 		} catch (error) {
@@ -61,7 +61,7 @@ const Registration = () => {
 			return;
 		}
 		try {
-			const response = await fetch("https://chess-tournament-manager-na4u.onrender.com/api/register", {
+			const response = await fetch("https://l7jkcepdx1.execute-api.us-east-1.amazonaws.com/dev/api/register", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

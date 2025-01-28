@@ -17,13 +17,16 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
 		const endpoint = isLoginMode ? "login" : "register";
 
 		try {
-			const response = await fetch(`https://chess-tournament-manager-na4u.onrender.com/api/auth/${endpoint}`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(formData),
-			});
+			const response = await fetch(
+				`https://l7jkcepdx1.execute-api.us-east-1.amazonaws.com/dev/api/auth/${endpoint}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(formData),
+				}
+			);
 
 			const data = await response.json();
 

@@ -17,7 +17,7 @@ const App = () => {
 	useEffect(() => {
 		const checkBackendConnection = async () => {
 			try {
-				const response = await fetch("https://chess-tournament-manager-na4u.onrender.com/api/health");
+				const response = await fetch("https://l7jkcepdx1.execute-api.us-east-1.amazonaws.com/dev/api/health");
 				if (!response.ok) {
 					throw new Error("Backend service is not responding");
 				}
