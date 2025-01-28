@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import Chat from "./Chat";
 import LoginModal from "./LoginModal";
 import { IoChatboxEllipses } from "react-icons/io5";
+import Thoughts from "./Thoughts";
+import Videos from "./Videos";
 
 const Home = () => {
 	const [isChatOpen, setIsChatOpen] = useState(false);
@@ -203,6 +205,8 @@ const Home = () => {
 						The Sunday Tournament winner is <br /> "XYZ 💀"
 					</div>
 				</div>
+				<Videos />
+				<Thoughts />
 
 				{renderUserControls()}
 
