@@ -5,15 +5,21 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node index.js",
-		"dev": "nodemon index.js"
+		"dev": "nodemon index.js",
+		"deploy": "serverless deploy",
+		"start:lambda": "serverless offline"
 	},
 	"dependencies": {
 		"cors": "^2.8.5",
 		"dotenv": "^16.3.1",
 		"express": "^4.18.2",
-		"mongoose": "^8.9.5"
+		"mongoose": "^8.9.5",
+		"aws-lambda": "^1.0.7",
+		"serverless-http": "^3.2.0"
 	},
 	"devDependencies": {
-		"nodemon": "^3.0.1"
+		"nodemon": "^3.0.1",
+		"serverless": "^3.34.0",
+		"serverless-offline": "^12.0.4"
 	}
 }

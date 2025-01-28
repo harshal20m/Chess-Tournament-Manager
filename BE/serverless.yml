@@ -1,0 +1,21 @@
+service: chessmbh
+
+provider:
+    name: aws
+    runtime: nodejs18.x
+    stage: ${opt:stage, 'dev'}
+    region: ${opt:region, 'ap-south-1'}
+    environment:
+        NODE_ENV: ${self:provider.stage}
+
+functions:
+    api:
+        handler: src/lambda.handler
+        events:
+            - http:
+                  path: /{proxy+}
+                  method: ANY
+                  cors: true
+
+plugins:
+    - serverless-offline
