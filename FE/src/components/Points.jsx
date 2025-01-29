@@ -12,7 +12,9 @@ const Points = () => {
 
 	const loadStandings = async () => {
 		try {
-			const response = await fetch("http://localhost:5000/api/tournament-results/standings/current");
+			const response = await fetch(
+				"https://kuf4krkrb7.execute-api.ap-south-1.amazonaws.com/dev/api/tournament-results/standings/current"
+			);
 			if (!response.ok) throw new Error("Failed to load standings");
 			const data = await response.json();
 			setStandings(data);

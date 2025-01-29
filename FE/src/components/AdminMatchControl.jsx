@@ -27,7 +27,9 @@ const AdminMatchControl = () => {
 
 	const loadMatchups = async () => {
 		try {
-			const response = await fetch("http://localhost:5000/api/matchups/tournament/current");
+			const response = await fetch(
+				"https://kuf4krkrb7.execute-api.ap-south-1.amazonaws.com/dev/api/matchups/tournament/current"
+			);
 			if (response.ok) {
 				const matchups = await response.json();
 				setRounds(matchups);
@@ -43,38 +45,44 @@ const AdminMatchControl = () => {
 		setUpdating(true);
 		try {
 			// First update tournament results
-			const tournamentResponse = await fetch("http://localhost:5000/api/tournament-results/update-match", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					tournamentId: "current",
-					roundNumber: currentRound + 1,
-					player1Id,
-					player2Id,
-					result,
-				}),
-			});
+			const tournamentResponse = await fetch(
+				"https://kuf4krkrb7.execute-api.ap-south-1.amazonaws.com/dev/api/tournament-results/update-match",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						tournamentId: "current",
+						roundNumber: currentRound + 1,
+						player1Id,
+						player2Id,
+						result,
+					}),
+				}
+			);
 
 			if (!tournamentResponse.ok) {
 				throw new Error("Failed to update tournament results");
 			}
 
 			// Then update matchup result
-			const matchupResponse = await fetch("http://localhost:5000/api/matchups/update-result", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					tournamentId: "current",
-					roundNumber: currentRound + 1,
-					player1Id,
-					player2Id,
-					result,
-				}),
-			});
+			const matchupResponse = await fetch(
+				"https://kuf4krkrb7.execute-api.ap-south-1.amazonaws.com/dev/api/matchups/update-result",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						tournamentId: "current",
+						roundNumber: currentRound + 1,
+						player1Id,
+						player2Id,
+						result,
+					}),
+				}
+			);
 
 			if (!matchupResponse.ok) {
 				throw new Error("Failed to update matchup result");
@@ -93,13 +101,16 @@ const AdminMatchControl = () => {
 	const handleReset = async () => {
 		setIsResetting(true);
 		try {
-			const response = await fetch("http://localhost:5000/api/tournament-results/reset-tournament", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ tournamentId: "current" }),
-			});
+			const response = await fetch(
+				"https://kuf4krkrb7.execute-api.ap-south-1.amazonaws.com/dev/api/tournament-results/reset-tournament",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ tournamentId: "current" }),
+				}
+			);
 
 			if (!response.ok) throw new Error("Failed to reset tournament");
 

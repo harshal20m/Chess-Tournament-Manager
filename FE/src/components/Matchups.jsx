@@ -35,7 +35,9 @@ const Matchups = () => {
 
 	const loadExistingMatchups = async () => {
 		try {
-			const response = await fetch("http://localhost:5000/api/matchups/tournament/current"); // Adjust the tournamentId as needed
+			const response = await fetch(
+				"https://kuf4krkrb7.execute-api.ap-south-1.amazonaws.com/dev/api/matchups/tournament/current"
+			); // Adjust the tournamentId as needed
 			if (response.ok) {
 				const matchups = await response.json();
 				if (matchups.length > 0) {
@@ -118,17 +120,20 @@ const Matchups = () => {
 			}
 
 			// Save generated rounds to backend
-			const response = await fetch("http://localhost:5000/api/matchups/generate-rounds", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					players,
-					numberOfRounds: totalRounds,
-					tournamentId: "current", // Adjust as needed
-				}),
-			});
+			const response = await fetch(
+				"https://kuf4krkrb7.execute-api.ap-south-1.amazonaws.com/dev/api/matchups/generate-rounds",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						players,
+						numberOfRounds: totalRounds,
+						tournamentId: "current", // Adjust as needed
+					}),
+				}
+			);
 
 			if (!response.ok) throw new Error("Failed to save matchups");
 
