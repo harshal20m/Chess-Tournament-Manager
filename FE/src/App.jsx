@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import PlayerDetails from "./components/PlayerDetails";
 import Matchups from "./components/Matchups";
+import AdminMatchControl from "./components/AdminMatchControl";
 
 const App = () => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -75,6 +76,7 @@ const App = () => {
 					<Route path="/hall-of-fame" element={<HallOfFame />} />
 					<Route path="/player/:username" element={<PlayerDetails />} />
 					<Route path="/matchups" element={<Matchups />} />
+					<Route path="/admin/matches" element={<AdminMatchControl />} />
 				</Routes>
 				<Footer />
 			</div>

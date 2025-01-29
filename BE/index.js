@@ -26,6 +26,9 @@ app.use("/api/messages", require("./routes/messages.routes"));
 const matchupRouter = require("./routes/matchup.route");
 app.use("/api/matchups", matchupRouter);
 
+const tournamentResultRouter = require("./routes/tournamentResult.route");
+app.use("/api/tournament-results", tournamentResultRouter);
+
 // Error handling
 app.use((err, req, res, next) => {
 	res.status(500).json({ message: err.message });

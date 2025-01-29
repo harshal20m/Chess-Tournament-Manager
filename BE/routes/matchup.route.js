@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Matchup = require("../models/matchup");
+const TournamentResult = require("../models/tournamentResult"); // Add this
 
 // Helper function to check if a pair has been used in any round
 const isPairUsed = (player1Id, player2Id, allMatches) => {
@@ -14,6 +15,20 @@ const isPairUsed = (player1Id, player2Id, allMatches) => {
 router.post("/generate-rounds", async (req, res) => {
 	try {
 		const { players, numberOfRounds, tournamentId } = req.body;
+
+		// Initialize tournament results first
+		await TournamentResult.deleteMany({ tournamentId });
+		await Promise.all(
+			players.map((player) =>
+				TournamentResult.create({
+					tournamentId,
+					playerId: player._id,
+					playerName: player.chesscomUsername,
+					matches: [],
+				})
+			)
+		);
+
 		const matchups = [];
 		const allMatches = []; // Keep track of all matches across rounds
 
@@ -104,6 +119,36 @@ router.post("/generate-rounds", async (req, res) => {
 		res.json(matchups);
 	} catch (error) {
 		console.error("Error:", error);
+		res.status(500).json({ message: error.message });
+	}
+});
+
+router.post("/update-result", async (req, res) => {
+	try {
+		const { tournamentId, roundNumber, player1Id, player2Id, result } = req.body;
+
+		const matchup = await Matchup.findOne({
+			tournamentId,
+			round: roundNumber,
+		});
+
+		if (!matchup) {
+			throw new Error("Matchup not found");
+		}
+
+		const match = matchup.matches.find(
+			(m) =>
+				(m.player1._id === player1Id && m.player2._id === player2Id) ||
+				(m.player1._id === player2Id && m.player2._id === player1Id)
+		);
+
+		if (match) {
+			match.result = result;
+			await matchup.save();
+		}
+
+		res.json({ success: true });
+	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
 });

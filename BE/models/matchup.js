@@ -14,7 +14,11 @@ const matchupSchema = new mongoose.Schema({
 				chesscomUsername: String,
 				// ... any other player fields you need
 			},
-			result: { type: String, default: "pending" },
+			result: {
+				type: String,
+				enum: ["win", "loss", "draw", "pending"],
+				default: "pending",
+			},
 		},
 	],
 	tournamentId: { type: String, required: true },

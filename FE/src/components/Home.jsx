@@ -12,16 +12,10 @@ const Home = () => {
 	const [isChatOpen, setIsChatOpen] = useState(false);
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 	const [currentUser, setCurrentUser] = useState(() => {
-		try {
-			// Check if user data exists in localStorage
-			const savedUser = localStorage.getItem("user");
-			return savedUser ? JSON.parse(savedUser) : null;
-		} catch (error) {
-			// If there's any error parsing, remove the invalid data and return null
-			localStorage.removeItem("user");
-			return null;
-		}
+		const username = localStorage.getItem("username");
+		return username || null;
 	});
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	const handleChatClick = () => {
 		if (!currentUser) {
@@ -33,15 +27,9 @@ const Home = () => {
 
 	const handleLogin = (user, pass) => {
 		if (!user) return;
-		const userData = {
-			username: user,
-			password: pass,
-			loginTime: new Date().toISOString(),
-		};
-		setCurrentUser(userData.username);
-		// Store without JSON.stringify
-		localStorage.setItem("username", userData.username);
-		localStorage.setItem("password", userData.password);
+		setCurrentUser(user);
+		localStorage.setItem("username", user);
+		localStorage.setItem("password", pass);
 		setIsLoginModalOpen(false);
 		setIsChatOpen(true);
 	};
@@ -49,8 +37,8 @@ const Home = () => {
 	const handleLogout = () => {
 		setIsChatOpen(false);
 		setCurrentUser(null);
-		// Don't remove from localStorage on logout
-		// localStorage.removeItem("user");
+		localStorage.removeItem("username");
+		localStorage.removeItem("password");
 	};
 
 	// Add logout button if user is logged in
@@ -75,17 +63,15 @@ const Home = () => {
 
 	// Add effect to rehydrate user on page refresh
 	useEffect(() => {
-		const savedUser = localStorage.getItem("user");
-		if (savedUser) {
-			try {
-				const parsedUser = JSON.parse(savedUser);
-				if (parsedUser) {
-					setCurrentUser(parsedUser);
-				}
-			} catch (error) {
-				console.error("Error parsing user data:", error);
-			}
+		const username = localStorage.getItem("username");
+		const password = localStorage.getItem("password");
+
+		if (username) {
+			setCurrentUser(username);
 		}
+
+		const isAdmin = username === "harshal@gmail.com" && password === "hm2002";
+		setIsAdmin(isAdmin);
 	}, []);
 
 	return (
@@ -219,6 +205,24 @@ const Home = () => {
 							translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"
 						></div>
 					</a>
+					{isAdmin && (
+						<Link
+							to="/admin/matches"
+							className="group h-16 sm:h-20 w-full sm:w-44 text-base sm:text-xl text-center flex flex-col justify-center items-center rounded-xl sm:rounded-2xl 
+						bg-gradient-to-br from-cyan-500 via-cyan-600 to-blue-600 text-white 
+						shadow-[0_0_10px_rgba(6,182,212,0.3)] sm:shadow-[0_0_20px_rgba(6,182,212,0.5)]
+						hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] sm:hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]
+						transition-all duration-300 hover:scale-[1.02] sm:hover:scale-105 
+						hover:from-cyan-600 hover:via-cyan-700 hover:to-blue-700
+						relative overflow-hidden"
+						>
+							<span className="relative z-10">Admin</span>
+							<div
+								className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent 
+							translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"
+							></div>
+						</Link>
+					)}
 				</div>
 
 				{/* Welcome Messages */}
