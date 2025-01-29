@@ -23,6 +23,9 @@ app.use("/api/register", registrationRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", require("./routes/messages.routes"));
 
+const matchupRouter = require("./routes/matchup.route");
+app.use("/api/matchups", matchupRouter);
+
 // Error handling
 app.use((err, req, res, next) => {
 	res.status(500).json({ message: err.message });
