@@ -205,6 +205,22 @@ const Home = () => {
 							translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"
 						></div>
 					</a>
+					<Link
+						to="/play"
+						className="group h-16 sm:h-20 w-full sm:w-44 text-base sm:text-xl text-center flex flex-col justify-center items-center rounded-xl sm:rounded-2xl 
+						bg-gradient-to-br from-purple-500 via-purple-600 to-indigo-600 text-white 
+						shadow-[0_0_10px_rgba(147,51,234,0.3)] sm:shadow-[0_0_20px_rgba(147,51,234,0.5)]
+						hover:shadow-[0_0_15px_rgba(99,102,241,0.4)] sm:hover:shadow-[0_0_25px_rgba(99,102,241,0.6)]
+						transition-all duration-300 hover:scale-[1.02] sm:hover:scale-105 
+						hover:from-purple-600 hover:via-purple-700 hover:to-indigo-700
+						relative overflow-hidden"
+					>
+						<span className="relative z-10">Play Chess</span>
+						<div
+							className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent 
+						translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"
+						></div>
+					</Link>
 					{isAdmin && (
 						<Link
 							to="/admin/matches"
