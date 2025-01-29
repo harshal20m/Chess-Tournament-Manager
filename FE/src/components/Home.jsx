@@ -31,14 +31,17 @@ const Home = () => {
 		}
 	};
 
-	const handleLogin = (user) => {
-		if (!user) return; // Add validation
+	const handleLogin = (user, pass) => {
+		if (!user) return;
 		const userData = {
 			username: user,
+			password: pass,
 			loginTime: new Date().toISOString(),
 		};
 		setCurrentUser(userData.username);
-		localStorage.setItem("user", JSON.stringify(userData.username));
+		// Store without JSON.stringify
+		localStorage.setItem("username", userData.username);
+		localStorage.setItem("password", userData.password);
 		setIsLoginModalOpen(false);
 		setIsChatOpen(true);
 	};

@@ -35,7 +35,10 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
 			}
 
 			if (isLoginMode) {
-				onLogin(formData.username);
+				// Store without JSON.stringify
+				localStorage.setItem("username", formData.username);
+				localStorage.setItem("password", formData.password);
+				onLogin(formData.username, formData.password);
 				onClose();
 			} else {
 				setIsLoginMode(true);

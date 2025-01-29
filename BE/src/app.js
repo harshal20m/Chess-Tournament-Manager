@@ -20,12 +20,14 @@ const registrationRoutes = require("../routes/registration.routes");
 const playerRoutes = require("../routes/player.routes");
 const authRoutes = require("../routes/auth.routes");
 const messagesRoutes = require("../routes/messages.routes");
+const matchupRouter = require("../routes/matchup.route");
 
 // Use routes
 app.use("/api/players", playerRoutes);
 app.use("/api/register", registrationRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messagesRoutes);
+app.use("/api/matchups", matchupRouter);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
