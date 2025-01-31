@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from "react";
 
+const Loader = () => (
+	<div className="flex items-center justify-center mt-8">
+		<div className="relative">
+			<div className="h-16 w-16 rounded-full border-t-4 border-b-4 border-blue-500 animate-spin"></div>
+			<div
+				className="absolute top-0 left-0 h-16 w-16 rounded-full border-t-4 border-b-4 border-purple-500 animate-spin"
+				style={{ animationDirection: "reverse", opacity: 0.7 }}
+			></div>
+		</div>
+		<span className="ml-4 text-white text-lg">Loading matchups...</span>
+	</div>
+);
+
 const Matchups = () => {
 	const [players, setPlayers] = useState([]);
 	const [rounds, setRounds] = useState([]);
@@ -147,7 +160,7 @@ const Matchups = () => {
 		}
 	};
 
-	if (loading) return <div className="text-white text-center mt-8">Loading matchups...</div>;
+	if (loading) return <Loader />;
 	if (error) return <div className="text-red-500 text-center mt-8">{error}</div>;
 
 	return (

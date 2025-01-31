@@ -11,6 +11,7 @@ import PlayerDetails from "./components/PlayerDetails";
 import Matchups from "./components/Matchups";
 import AdminMatchControl from "./components/AdminMatchControl";
 import Play from "./components/Play";
+import "./loader.css";
 
 const App = () => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -47,16 +48,11 @@ const App = () => {
 					) : (
 						<div className="space-y-6">
 							<div className="flex flex-col items-center gap-4">
-								<div className="w-16 h-16 border-4 border-blue-500/50 border-t-blue-500 rounded-full animate-spin"></div>
+								<span className="loader"></span>{" "}
 								<div className="text-white/80">
 									<p className="text-xl font-semibold mb-2">Loading Chess MBH</p>
 									<p className="text-sm text-white/60">Please wait while we set up the board...</p>
 								</div>
-							</div>
-							<div className="flex justify-center items-center gap-2">
-								<div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-								<div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-.3s]"></div>
-								<div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-.5s]"></div>
 							</div>
 						</div>
 					)}

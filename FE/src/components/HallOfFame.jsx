@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import "../loader.css";
 
 const HallOfFame = () => {
 	const [players, setPlayers] = useState([]);
@@ -72,7 +73,7 @@ const HallOfFame = () => {
 	if (loading)
 		return (
 			<div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
-				<div className="text-white/80">Loading players data...</div>
+				<span className="loader"></span>
 			</div>
 		);
 
@@ -140,7 +141,7 @@ const HallOfFame = () => {
 										</div>
 									</div>
 
-									<div className="grid grid-cols-3 gap-4 p-3 bg-white/5 rounded-lg">
+									{/* <div className="grid grid-cols-3 gap-4 p-3 bg-white/5 rounded-lg">
 										{["Rapid", "Blitz", "Bullet"].map((type) => (
 											<div key={type} className="text-center">
 												<p className="text-xs text-white/60 mb-1">{type}</p>
@@ -150,7 +151,7 @@ const HallOfFame = () => {
 												</p>
 											</div>
 										))}
-									</div>
+									</div> */}
 								</div>
 							)}
 						</Link>
