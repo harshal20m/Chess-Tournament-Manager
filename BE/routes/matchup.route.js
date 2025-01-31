@@ -1,23 +1,82 @@
 const express = require("express");
 const router = express.Router();
 const Matchup = require("../models/matchup");
-const TournamentResult = require("../models/tournamentResult"); // Add this
+const TournamentResult = require("../models/tournamentResult");
 
-// Helper function to check if a pair has been used in any round
-const isPairUsed = (player1Id, player2Id, allMatches) => {
-	return allMatches.some(
+// Helper function to create a unique pair key
+const getPairKey = (player1Id, player2Id) => {
+	const ids = [player1Id.toString(), player2Id.toString()].sort();
+	return ids.join("-");
+};
+
+// Helper function to check if a pair has been used
+const isPairUsed = (player1Id, player2Id, usedPairs) => {
+	const pairKey = getPairKey(player1Id, player2Id);
+	return usedPairs.has(pairKey);
+};
+
+// Helper function to get player's previous opponents
+const getPlayerOpponents = (playerId, allMatches) => {
+	return allMatches
+		.filter(
+			(match) =>
+				match.player1._id.toString() === playerId.toString() ||
+				match.player2._id.toString() === playerId.toString()
+		)
+		.map((match) =>
+			match.player1._id.toString() === playerId.toString()
+				? match.player2._id.toString()
+				: match.player1._id.toString()
+		);
+};
+
+// Helper function to score potential pairing
+const scorePairing = (player1Id, player2Id, usedPairs, allMatches, round, totalRounds) => {
+	const pairKey = getPairKey(player1Id, player2Id);
+	if (usedPairs.has(pairKey)) {
+		return -1000; // Heavy penalty for repeated pairs
+	}
+
+	let score = 100;
+	const player1Opponents = getPlayerOpponents(player1Id, allMatches);
+	const player2Opponents = getPlayerOpponents(player2Id, allMatches);
+
+	// Penalize based on number of common opponents
+	const commonOpponents = player1Opponents.filter((op) => player2Opponents.includes(op));
+	score -= commonOpponents.length * 10;
+
+	// Penalize based on games played against each other
+	const gamesAgainstEachOther = allMatches.filter(
 		(match) =>
-			(match.player1._id === player1Id && match.player2._id === player2Id) ||
-			(match.player1._id === player2Id && match.player2._id === player1Id)
-	);
+			(match.player1._id.toString() === player1Id.toString() &&
+				match.player2._id.toString() === player2Id.toString()) ||
+			(match.player1._id.toString() === player2Id.toString() &&
+				match.player2._id.toString() === player1Id.toString())
+	).length;
+	score -= gamesAgainstEachOther * 50;
+
+	// Consider round number (prefer new opponents in early rounds)
+	score -= (round / totalRounds) * 20;
+
+	return score;
 };
 
 router.post("/generate-rounds", async (req, res) => {
+	console.log("Starting matchup generation...");
+	const startTime = Date.now();
+
 	try {
 		const { players, numberOfRounds, tournamentId } = req.body;
+		console.log(`Generating ${numberOfRounds} rounds for ${players.length} players`);
 
-		// Initialize tournament results first
-		await TournamentResult.deleteMany({ tournamentId });
+		// Clear existing data
+		await Promise.all([TournamentResult.deleteMany({ tournamentId }), Matchup.deleteMany({ tournamentId })]);
+
+		const matchups = [];
+		const usedPairs = new Set();
+		const allMatches = [];
+
+		// Initialize tournament results
 		await Promise.all(
 			players.map((player) =>
 				TournamentResult.create({
@@ -29,76 +88,63 @@ router.post("/generate-rounds", async (req, res) => {
 			)
 		);
 
-		const matchups = [];
-		const allMatches = []; // Keep track of all matches across rounds
-
-		// Delete existing matchups
-		await Matchup.deleteMany({ tournamentId });
-
 		for (let round = 1; round <= numberOfRounds; round++) {
-			const availablePlayers = [...players];
+			console.log(`Generating round ${round}...`);
 			const matches = [];
+			let roundPlayers = [...players];
 
-			while (availablePlayers.length > 1) {
-				let validPairFound = false;
-				const player1 = availablePlayers[0]; // Take first player
+			while (roundPlayers.length > 1) {
+				const player1 = roundPlayers[0];
+				let bestScore = -Infinity;
+				let bestOpponent = null;
+				let bestOpponentIndex = -1;
 
-				// Try to find a valid opponent for player1
-				for (let j = 1; j < availablePlayers.length; j++) {
-					const player2 = availablePlayers[j];
+				// Find best opponent for player1
+				for (let i = 1; i < roundPlayers.length; i++) {
+					const player2 = roundPlayers[i];
+					const score = scorePairing(player1._id, player2._id, usedPairs, allMatches, round, numberOfRounds);
 
-					// Check if this pair hasn't played before
-					if (!isPairUsed(player1._id, player2._id, allMatches)) {
-						matches.push({
-							player1: {
-								_id: player1._id,
-								chesscomUsername: player1.chesscomUsername,
-							},
-							player2: {
-								_id: player2._id,
-								chesscomUsername: player2.chesscomUsername,
-							},
-						});
-						allMatches.push(matches[matches.length - 1]); // Add to all matches
-						availablePlayers.splice(j, 1); // Remove player2
-						availablePlayers.shift(); // Remove player1
-						validPairFound = true;
-						break;
+					if (score > bestScore) {
+						bestScore = score;
+						bestOpponent = player2;
+						bestOpponentIndex = i;
 					}
 				}
 
-				// If no valid pair found for player1
-				if (!validPairFound) {
-					// Force pair with next available player if we're running out of options
-					if (round === numberOfRounds || availablePlayers.length <= 3) {
-						const player2 = availablePlayers[1];
-						matches.push({
-							player1: {
-								_id: player1._id,
-								chesscomUsername: player1.chesscomUsername,
-							},
-							player2: {
-								_id: player2._id,
-								chesscomUsername: player2.chesscomUsername,
-							},
-						});
-						allMatches.push(matches[matches.length - 1]);
-						availablePlayers.splice(1, 1);
-						availablePlayers.shift();
-					} else {
-						// Move player1 to the end and try again in next iteration
-						const skippedPlayer = availablePlayers.shift();
-						availablePlayers.push(skippedPlayer);
-					}
+				if (bestOpponent) {
+					const match = {
+						player1: {
+							_id: player1._id,
+							chesscomUsername: player1.chesscomUsername,
+						},
+						player2: {
+							_id: bestOpponent._id,
+							chesscomUsername: bestOpponent.chesscomUsername,
+						},
+					};
+
+					matches.push(match);
+					allMatches.push(match);
+					usedPairs.add(getPairKey(player1._id, bestOpponent._id));
+
+					// Remove paired players
+					roundPlayers = roundPlayers.filter(
+						(p) =>
+							p._id.toString() !== player1._id.toString() &&
+							p._id.toString() !== bestOpponent._id.toString()
+					);
+				} else {
+					// Fallback if no valid opponent found
+					roundPlayers.shift();
 				}
 			}
 
 			// Handle odd player out
-			if (availablePlayers.length === 1) {
+			if (roundPlayers.length === 1) {
 				matches.push({
 					player1: {
-						_id: availablePlayers[0]._id,
-						chesscomUsername: availablePlayers[0].chesscomUsername,
+						_id: roundPlayers[0]._id,
+						chesscomUsername: roundPlayers[0].chesscomUsername,
 					},
 					player2: {
 						_id: "bye",
@@ -114,12 +160,18 @@ router.post("/generate-rounds", async (req, res) => {
 			});
 			await matchup.save();
 			matchups.push(matchup);
+
+			console.log(`Round ${round} completed with ${matches.length} matches`);
 		}
 
+		console.log(`Generation completed in ${(Date.now() - startTime) / 1000}s`);
 		res.json(matchups);
 	} catch (error) {
-		console.error("Error:", error);
-		res.status(500).json({ message: error.message });
+		console.error("Matchup generation failed:", error);
+		res.status(500).json({
+			message: "Failed to generate matchups",
+			error: error.message,
+		});
 	}
 });
 
