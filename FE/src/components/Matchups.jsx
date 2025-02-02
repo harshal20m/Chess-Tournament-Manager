@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../loader.css";
 
 const Matchups = () => {
 	const [players, setPlayers] = useState([]);
@@ -57,24 +56,70 @@ const Matchups = () => {
 	const generateAllRounds = async (players) => {
 		setIsSaving(true);
 		try {
-			const requestBody = {
-				players,
-				numberOfRounds: 6,
-				tournamentId: "current",
-			};
+			const totalRounds = 5;
+			const allRounds = [];
+			const usedPairs = new Set();
 
-			console.log("Starting matchups generation with:", {
-				playerCount: players.length,
-				numberOfRounds: 6,
-			});
+			for (let round = 0; round < totalRounds; round++) {
+				const roundMatches = [];
+				const availablePlayers = [...players];
 
-			// Increased timeout to 60 seconds
-			const controller = new AbortController();
-			const timeoutId = setTimeout(() => {
-				controller.abort();
-				console.log("Request timed out after 60 seconds");
-			}, 60000);
+				while (availablePlayers.length > 1) {
+					let validPairFound = false;
+					let attempts = 0;
+					const maxAttempts = availablePlayers.length * 2;
 
+					while (!validPairFound && attempts < maxAttempts) {
+						const player1Index = 0;
+						const player2Index = Math.floor(Math.random() * (availablePlayers.length - 1)) + 1;
+						const player1 = availablePlayers[player1Index];
+						const player2 = availablePlayers[player2Index];
+
+						// Create a unique pair identifier
+						const pairId = `${player1._id}-${player2._id}`;
+						const reversePairId = `${player2._id}-${player1._id}`;
+
+						if (!usedPairs.has(pairId) && !usedPairs.has(reversePairId)) {
+							roundMatches.push({
+								player1,
+								player2,
+								roundNumber: round + 1,
+							});
+							usedPairs.add(pairId);
+							availablePlayers.splice(player2Index, 1);
+							availablePlayers.splice(player1Index, 1);
+							validPairFound = true;
+						}
+						attempts++;
+					}
+
+					if (!validPairFound) {
+						// If no valid pair found, just pair the next available players
+						const player1 = availablePlayers.shift();
+						const player2 = availablePlayers.shift();
+						if (player1 && player2) {
+							roundMatches.push({
+								player1,
+								player2,
+								roundNumber: round + 1,
+							});
+						}
+					}
+				}
+
+				// Handle odd number of players
+				if (availablePlayers.length === 1) {
+					roundMatches.push({
+						player1: availablePlayers[0],
+						player2: { chesscomUsername: "Bye" },
+						roundNumber: round + 1,
+					});
+				}
+
+				allRounds.push(roundMatches);
+			}
+
+			// Save generated rounds to backend
 			const response = await fetch(
 				"https://kuf4krkrb7.execute-api.ap-south-1.amazonaws.com/dev/api/matchups/generate-rounds",
 				{
@@ -82,49 +127,27 @@ const Matchups = () => {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(requestBody),
-					signal: controller.signal,
+					body: JSON.stringify({
+						players,
+						numberOfRounds: totalRounds,
+						tournamentId: "current", // Adjust as needed
+					}),
 				}
 			);
 
-			clearTimeout(timeoutId);
-
-			if (!response.ok) {
-				const errorData = await response.json().catch(() => ({}));
-				console.error("Failed response:", {
-					status: response.status,
-					statusText: response.statusText,
-					error: errorData,
-				});
-				throw new Error(`Failed to save matchups: ${errorData.message || response.statusText}`);
-			}
+			if (!response.ok) throw new Error("Failed to save matchups");
 
 			const savedMatchups = await response.json();
-			console.log("Successfully generated matchups:", savedMatchups);
 			setRounds(savedMatchups.map((m) => m.matches));
 		} catch (err) {
-			console.error("Matchup generation error:", {
-				name: err.name,
-				message: err.message,
-				stack: err.stack,
-			});
-
-			if (err.name === "AbortError") {
-				setError("Request timed out after 60 seconds. The server is taking too long to respond.");
-			} else {
-				setError(`Failed to generate matchups: ${err.message}`);
-			}
+			setError(err.message);
+			console.error("Failed to generate and save matchups:", err);
 		} finally {
 			setIsSaving(false);
 		}
 	};
 
-	if (loading)
-		return (
-			<div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-2 sm:p-4 md:p-8">
-				<span className="loader"></span>;
-			</div>
-		);
+	if (loading) return <div className="text-white text-center mt-8">Loading matchups...</div>;
 	if (error) return <div className="text-red-500 text-center mt-8">{error}</div>;
 
 	return (

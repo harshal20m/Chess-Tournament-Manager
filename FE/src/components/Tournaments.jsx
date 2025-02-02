@@ -7,26 +7,26 @@ const Tournaments = () => {
 
 	// Tournament data
 	const tournaments = [
-		{
-			id: "sunday-tournament",
-			name: "Sunday Tournament",
-			status: "open", // 'open', 'closed', 'ongoing'
-			date: "02/feb/2025",
-			time: "2:00 PM IST",
-			format: "Open",
-			timeControl: "10+0 Blitz",
-			entryFee: "Free",
-			prizePool: "Depends on registrations",
-			maxParticipants: 32,
-			details: [
-				{ label: "Date", value: "02/feb/2025" },
-				{ label: "Time", value: "2:00 PM IST" },
-				{ label: "Format", value: "Open" },
-				{ label: "Time Control", value: "10+0 Blitz" },
-				{ label: "Entry Fee", value: "Free" },
-				{ label: "Prize Pool", value: "Depends on registrations" },
-			],
-		},
+		// {
+		// 	id: "sunday-tournament",
+		// 	name: "Sunday Tournament",
+		// 	status: "Closed", // 'open', 'closed', 'ongoing'
+		// 	date: "02/feb/2025",
+		// 	time: "2:00 PM IST",
+		// 	format: "Open",
+		// 	timeControl: "10+0 Blitz",
+		// 	entryFee: "Free",
+		// 	prizePool: "Depends on registrations",
+		// 	maxParticipants: 32,
+		// 	details: [
+		// 		{ label: "Date", value: "02/feb/2025" },
+		// 		{ label: "Time", value: "2:00 PM IST" },
+		// 		{ label: "Format", value: "Open" },
+		// 		{ label: "Time Control", value: "10+0 Blitz" },
+		// 		{ label: "Entry Fee", value: "Free" },
+		// 		{ label: "Prize Pool", value: "Depends on registrations" },
+		// 	],
+		// },
 		{
 			id: "saturday-blitz",
 			name: "Saturday Blitz",
@@ -36,8 +36,8 @@ const Tournaments = () => {
 				{ label: "Time", value: "4:00 PM IST" },
 				{ label: "Format", value: "Swiss" },
 				{ label: "Time Control", value: "5+0 Blitz" },
-				{ label: "Entry Fee", value: "Free" },
-				{ label: "Prize Pool", value: "₹500" },
+				{ label: "Entry Fee", value: "30 rs" },
+				{ label: "Prize Pool", value: "not decided" },
 			],
 		},
 	];
