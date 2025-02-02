@@ -7,6 +7,7 @@ import { GiChessKnight } from "react-icons/gi";
 
 import Thoughts from "./Thoughts";
 import Videos from "./Videos";
+import Winners from "./Winners";
 
 const Home = () => {
 	const [isChatOpen, setIsChatOpen] = useState(false);
@@ -247,9 +248,7 @@ const Home = () => {
 						Welcome to Chess MBH! Choose an option above to get started.
 					</div>
 
-					<div className="text-sm sm:text-base md:text-xl text-center font-medium text-white/90 backdrop-blur-sm bg-white/10 p-3 sm:p-4 rounded-xl">
-						The Sunday Tournament winner is <br /> "XYZ 💀"
-					</div>
+					<Winners />
 				</div>
 				<Videos />
 				<Thoughts />
